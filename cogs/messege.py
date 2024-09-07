@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from datetime import datetime, timedelta
+from config import *
 
 
 class Messege(commands.Cog):
@@ -13,17 +14,28 @@ class Messege(commands.Cog):
         if 1 <= number <= 24:
             now = datetime.now()
             gap = now - timedelta(hours=number)
-            member_dic = {}
+            members = {}
+            description = ""
             guild = ctx.guild
             
             for channel in guild.text_channels:
                 async for message in channel.history(limit=None, after=gap):
-                    if message.author.display_name in member_dic:
-                        member_dic[message.author.display_name] += 1
+                    if message.author.display_name in members:
+                        members[message.author.display_name] += 1
                     else:
-                        member_dic[message.author.display_name] = 1
+                        members[message.author.display_name] = 1
             
-            await ctx.send(f"{member_dic}")
+            members_sorted = sorted(members.items(), key=lambda x:x[1], reverse=True)
+            for i in members_sorted:
+                description += f"{i[0]}({i[1]}), "
+            
+            embed = discord.Embed(
+                title = f"{number}時間以内に{len(members)}人が書き込みをしました",
+                description = f"**{description}**",
+                color = Color.BANNER
+            )
+            
+            await ctx.send(embed=embed)
         
         else:
             await ctx.send("1から24までの数字を入れてください")
