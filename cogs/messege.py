@@ -27,7 +27,7 @@ class Messege(commands.Cog):
             
             members_sorted = sorted(members.items(), key=lambda x:x[1], reverse=True)
             for i in members_sorted:
-                description += f"{i[0]}({i[1]}), "
+                description += f"{i[0]} ({i[1]}), "
             
             embed = discord.Embed(
                 title = f"{number}時間以内に{len(members)}人が書き込みをしました",
