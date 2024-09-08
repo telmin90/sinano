@@ -25,6 +25,12 @@ class SimpleCommands(commands.Cog):
             embed = discord.Embed(description=f"{e}", color=Color.ERROR)
             await ctx.send(embed=embed)
     
+    # githubリポジトリへのリンク
+    @commands.command()
+    async def link(self, ctx):
+        url = "https://github.com/telmin90/sinano"
+        await ctx.send(f"{url}")
+        
     
         
 async def setup(bot):
